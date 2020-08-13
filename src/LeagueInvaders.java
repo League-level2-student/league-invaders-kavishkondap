@@ -20,5 +20,6 @@ stuff.setup();
 frame.setSize(WIDTH, HEIGHT);
 frame.setVisible(true);
 frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
+frame.addKeyListener(panel);
 	}
 }
