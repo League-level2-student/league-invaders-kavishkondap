@@ -11,7 +11,7 @@ GameObject (int x, int y, int width, int height){
 	this.y = y;
 	this.width = width;
 	this.height = height;
-	speed = 0;
+	speed = 10;
 	isActive = true;
 }
 void update (){

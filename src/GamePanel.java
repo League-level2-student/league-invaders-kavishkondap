@@ -110,23 +110,52 @@ g.drawString("Press ENTER to play again", 127, 450);
 		}
 		if (currentState == GAME) {
 			if (e.getKeyCode()==KeyEvent.VK_UP) {
-			    System.out.println("UP");
+			    if (rocket.y-10>0) {
+			    	rocket.up();
+			    }
 			}
 			if (e.getKeyCode()==KeyEvent.VK_DOWN) {
-			    System.out.println("DOWN");
+				if (rocket.y+60<LeagueInvaders.HEIGHT) {
+			    	rocket.down();
+			    }
 			}
 			if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
-			    System.out.println("RIGHT");
+				if (rocket.x+60<LeagueInvaders.WIDTH) {
+			    	rocket.right();
+			    }
 			}
 			if (e.getKeyCode()==KeyEvent.VK_LEFT) {
-			    System.out.println("LEFT");
+				if (rocket.x-10>0) {
+			    	rocket.left();
+			    }
 			}
 		}
 	}
 	@Override
-	public void keyReleased(KeyEvent arg0) {
+	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+		if (currentState == GAME) {
+			if (e.getKeyCode()==KeyEvent.VK_UP) {
+			    if (rocket.y-10>0) {
+			    	rocket.up();
+			    }
+			}
+			if (e.getKeyCode()==KeyEvent.VK_DOWN) {
+				if (rocket.y+60<LeagueInvaders.HEIGHT) {
+			    	rocket.down();
+			    }
+			}
+			if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
+				if (rocket.x+60<LeagueInvaders.WIDTH) {
+			    	rocket.right();
+			    }
+			}
+			if (e.getKeyCode()==KeyEvent.VK_LEFT) {
+				if (rocket.x-10>0) {
+			    	rocket.left();
+			    }
+			}
+		}
 	}
 	@Override
 	public void keyTyped(KeyEvent arg0) {
