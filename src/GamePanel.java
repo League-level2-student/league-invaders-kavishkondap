@@ -14,25 +14,30 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	final int GAME = 1;
 	final int END = 2;
 	int currentState = MENU;
-Font titleFont;
-Font startFont;
-Font instructionFont;
-Font endFont1;
-Font endFont2;
-Font endFont3;
-Timer frameDraw;
-Rocketship rocket = new Rocketship (250, 550, 50, 50);
-GamePanel (){
-	titleFont = new Font ("Arial", Font.PLAIN, 48);
-	startFont = new Font ("Arial", Font.PLAIN, 24);
-	instructionFont = new Font ("Arial", Font.PLAIN, 20);
-	endFont1 = new Font ("Arial", Font.PLAIN, 48);
-	endFont2 = new Font ("Arial", Font.PLAIN, 24);
-	endFont3 = new Font ("Arial", Font.PLAIN, 20);
-	frameDraw = new Timer (1000/60, this);
-	frameDraw.start();
-}
-@Override
+	Font titleFont;
+	Font startFont;
+	Font instructionFont;
+	Font endFont1;
+	Font endFont2;
+	Font endFont3;
+	Timer frameDraw;
+	Rocketship rocket = new Rocketship(250, 550, 50, 50);
+	ObjectManager manager = new ObjectManager (rocket);
+	long lastOneSpawned;
+	long counter;
+	long finalScore;
+	GamePanel() {
+		titleFont = new Font("Arial", Font.PLAIN, 48);
+		startFont = new Font("Arial", Font.PLAIN, 24);
+		instructionFont = new Font("Arial", Font.PLAIN, 20);
+		endFont1 = new Font("Arial", Font.PLAIN, 48);
+		endFont2 = new Font("Arial", Font.PLAIN, 24);
+		endFont3 = new Font("Arial", Font.PLAIN, 20);
+		frameDraw = new Timer(1000 / 60, this);
+		frameDraw.start();
+	}
+
+	@Override
 	public void paintComponent(Graphics g) {
 		if (currentState == MENU) {
 			drawMenuState(g);
@@ -44,15 +49,28 @@ GamePanel (){
 	}
 
 	void updateMenuState() {
-
+		
 	}
 
 	void updateGameState() {
-
+		manager.update ();
+		long time = System.currentTimeMillis();
+		//figure this out
+		counter++;
+		if (counter % 60 == 0) {
+			manager.addAlien();
+		}
+		if (!rocket.isActive) {
+			currentState = END;
+			finalScore = manager.score;
+			Rocketship rocket = new Rocketship (250, 550, 50, 50);
+			ObjectManager manager = new ObjectManager (rocket);
+		}
+		
 	}
 
 	void updateEndState() {
-
+		
 	}
 
 	void drawMenuState(Graphics g) {
@@ -68,98 +86,102 @@ GamePanel (){
 	}
 
 	void drawGameState(Graphics g) {
-g.setColor(Color.BLACK);
-g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
-rocket.draw(g);
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
+		rocket.draw(g);
 	}
 
 	void drawEndState(Graphics g) {
-g.setColor(Color.RED);
-g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
-g.setFont (endFont1);
-g.setColor(Color.BLACK);
-g.drawString("GAME OVER", 100, 150);
-g.setFont (endFont2);
-g.drawString("You killed 0 enemies", 130, 300);
-g.setFont (endFont3);
-g.drawString("Press ENTER to play again", 127, 450);
+		g.setColor(Color.RED);
+		g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
+		g.setFont(endFont1);
+		g.setColor(Color.BLACK);
+		g.drawString("GAME OVER", 100, 150);
+		g.setFont(endFont2);
+		g.drawString("You killed " + finalScore +  " enemies", 130, 300);
+		g.setFont(endFont3);
+		g.drawString("Press ENTER to play again", 127, 450);
 
 	}
+
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		if(currentState == MENU){
-		    updateMenuState();
-		}else if(currentState == GAME){
-		    updateGameState();
-		}else if(currentState == END){
-	 	    updateEndState();
+		if (currentState == MENU) {
+			updateMenuState();
+		} else if (currentState == GAME) {
+			updateGameState();
+		} else if (currentState == END) {
+			updateEndState();
 		}
 		System.out.println("action");
-		repaint ();
+		repaint();
 	}
+
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getKeyCode () == KeyEvent.VK_ENTER) {
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (currentState == END) {
 				currentState = MENU;
-			}else {
-				currentState ++;
+			} else {
+				currentState++;
 			}
 		}
 		if (currentState == GAME) {
-			if (e.getKeyCode()==KeyEvent.VK_UP) {
-			    if (rocket.y-10>0) {
-			    	rocket.up();
-			    }
+			if (e.getKeyCode() == KeyEvent.VK_UP) {
+				if (rocket.y - 10 > 0) {
+					rocket.up();
+				}
 			}
-			if (e.getKeyCode()==KeyEvent.VK_DOWN) {
-				if (rocket.y+60<LeagueInvaders.HEIGHT) {
-			    	rocket.down();
-			    }
+			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+				if (rocket.y + 60 < LeagueInvaders.HEIGHT) {
+					rocket.down();
+				}
 			}
-			if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
-				if (rocket.x+60<LeagueInvaders.WIDTH) {
-			    	rocket.right();
-			    }
+			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				if (rocket.x + 60 < LeagueInvaders.WIDTH) {
+					rocket.right();
+				}
 			}
-			if (e.getKeyCode()==KeyEvent.VK_LEFT) {
-				if (rocket.x-10>0) {
-			    	rocket.left();
-			    }
+			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+				if (rocket.x - 10 > 0) {
+					rocket.left();
+				}
 			}
 		}
 	}
+
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if (currentState == GAME) {
-			if (e.getKeyCode()==KeyEvent.VK_UP) {
-			    if (rocket.y-10>0) {
-			    	rocket.up();
-			    }
+			if (e.getKeyCode() == KeyEvent.VK_UP) {
+				if (rocket.y - 10 > 0) {
+					rocket.up();
+				}
 			}
-			if (e.getKeyCode()==KeyEvent.VK_DOWN) {
-				if (rocket.y+60<LeagueInvaders.HEIGHT) {
-			    	rocket.down();
-			    }
+			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+				if (rocket.y + 60 < LeagueInvaders.HEIGHT) {
+					rocket.down();
+				}
 			}
-			if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
-				if (rocket.x+60<LeagueInvaders.WIDTH) {
-			    	rocket.right();
-			    }
+			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				if (rocket.x + 60 < LeagueInvaders.WIDTH) {
+					rocket.right();
+				}
 			}
-			if (e.getKeyCode()==KeyEvent.VK_LEFT) {
-				if (rocket.x-10>0) {
-			    	rocket.left();
-			    }
+			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+				if (rocket.x - 10 > 0) {
+					rocket.left();
+				}
 			}
 		}
 	}
+
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
