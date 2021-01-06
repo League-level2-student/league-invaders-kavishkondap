@@ -9,6 +9,7 @@ public class LeagueInvaders {
 	public static void main(String[] args) {
 		LeagueInvaders stuff = new LeagueInvaders();
 		stuff.setup();
+		
 	}
 
 	LeagueInvaders() {

@@ -9,13 +9,13 @@ public class GameObject {
 	int speed;
 	boolean isActive;
 	Rectangle collisionBox;
-	GameObject(int x, int y, int width, int height) {
+	GameObject(int x, double y2, int width, int height) {
 		this.x = x;
-		this.y = y;
+		this.y = (int) y2;
 		this.width = width;
 		this.height = height;
-		speed = 10;
-		this.collisionBox = new Rectangle ( x, y, width, height);
+		speed = 15;
+		this.collisionBox = new Rectangle ( x, (int) y2, width, height);
 		isActive = true;
 	}
 

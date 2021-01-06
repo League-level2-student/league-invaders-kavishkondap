@@ -8,7 +8,7 @@ public class Alien extends GameObject {
 	public static BufferedImage image;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;	
-	Alien(int x, int y, int width, int height) {
+	Alien(int x, double y, int width, int height) {
 		super(x, y, width, height);
 		speed = 1;
 		if (needImage) {
@@ -17,7 +17,7 @@ public class Alien extends GameObject {
 	}
 
 	void update() {
-		y += speed;
+		y += (double)speed * (Math.random() * 2.5) +1 ;
 		super.update();
 	}
 

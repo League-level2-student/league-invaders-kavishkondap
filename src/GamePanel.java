@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -33,6 +34,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public static BufferedImage image;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;	
+	public static int hardOrEasy;
+	public static boolean isHard;
 	GamePanel() {
 		titleFont = new Font("Arial", Font.PLAIN, 48);
 		startFont = new Font("Arial", Font.PLAIN, 24);
@@ -110,10 +113,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			g.setColor(Color.BLUE);
 			g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
 		}
+//		String mode = JOptionPane.showInputDialog("Easy or Hard Mode?");
+//		if (mode.equalsIgnoreCase("easy")) {
+//			hardOrEasy = 2;
+//			isHard = false;
+//		}else {
+//			hardOrEasy = 4;
+//			isHard = true;
+//		}
 		g.setFont(gameFont);
 		g.setColor(Color.WHITE);
 		g.drawString("SCORE: " + manager.getScore(),10 , LeagueInvaders.HEIGHT- 50);
 		manager.draw(g);
+		
 	}
 
 	void drawEndState(Graphics g) {
@@ -166,7 +178,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				}
 			}
 		}
+		if (currentState == MENU) {
+			if (e.getKeyCode()== KeyEvent.VK_SPACE) {
+				JOptionPane.showMessageDialog(null, "How to play: \nPress the arrow keys to move around and space to shoot \nDon't get hit by aliens or let any pass you!\nGood Luck!");
+			}
+		}
 		if (currentState == GAME) {
+			
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
 				if (rocket.y - 10 > 0) {
 					rocket.up();
